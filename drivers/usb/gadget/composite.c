@@ -806,8 +806,8 @@ composite_setup(struct usb_gadget *gadget, const struct usb_ctrlrequest *ctrl)
 	u16				w_length = le16_to_cpu(ctrl->wLength);
 	struct usb_function		*f = NULL;
 	u8				endp;
-	int tmp = intf;
-	int id = 0;
+//	int tmp = intf;
+//	int id = 0;
 	unsigned long			flags;
 
 	spin_lock_irqsave(&cdev->lock, flags);
@@ -953,26 +953,27 @@ unknown:
 		 */
 		switch (ctrl->bRequestType & USB_RECIP_MASK) {
 		case USB_RECIP_INTERFACE:
-
-			if (cdev->config == NULL)
-				return value;
-
-			if (w_index >= cdev->config->next_interface_id)
-				return value;
-			/* Find correct function */
-			for (id = 0; id < MAX_CONFIG_INTERFACES; id++) {
-				f = cdev->config->interface[id];
-				if (!f)
-					break;
-				if (f->disabled)
-					continue;
-				if (!tmp)
-					break;
-				tmp--;
-			}
-
-			if (tmp)
-				f = NULL;
+			if (cdev->config)
+				f = cdev->config->interface[intf];
+//			if (cdev->config == NULL)
+//				return value;
+//
+//			if (w_index >= cdev->config->next_interface_id)
+//				return value;
+//			/* Find correct function */
+//			for (id = 0; id < MAX_CONFIG_INTERFACES; id++) {
+//				f = cdev->config->interface[id];
+//				if (!f)
+//					break;
+//				if (f->disabled)
+//					continue;
+//				if (!tmp)
+//					break;
+//				tmp--;
+//			}
+//
+//			if (tmp)
+//				f = NULL;
 			break;
 
 		case USB_RECIP_ENDPOINT:

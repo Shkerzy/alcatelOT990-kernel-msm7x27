@@ -201,7 +201,6 @@ static int suspend_enter(suspend_state_t state)
 int suspend_devices_and_enter(suspend_state_t state)
 {
 	int error;
-	gfp_t saved_mask;
 #if JRD_RECORD_SLEEP_UP_TIME
         struct timespec a_ts;
 	struct rtc_time a_tm;
@@ -228,7 +227,7 @@ int suspend_devices_and_enter(suspend_state_t state)
 #endif
 
 	suspend_console();
-	saved_mask = clear_gfp_allowed_mask(GFP_IOFS);
+	pm_restrict_gfp_mask();
 	suspend_test_start();
 	error = dpm_suspend_start(PMSG_SUSPEND);
 	if (error) {
@@ -245,7 +244,7 @@ int suspend_devices_and_enter(suspend_state_t state)
 	suspend_test_start();
 	dpm_resume_end(PMSG_RESUME);
 	suspend_test_finish("resume devices");
-	set_gfp_allowed_mask(saved_mask);
+	pm_restore_gfp_mask();
 	resume_console();
  Close:
 	if (suspend_ops->end)
