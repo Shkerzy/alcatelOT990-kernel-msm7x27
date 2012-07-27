@@ -439,13 +439,13 @@ static int msm_otg_rpc_phy_reset(void __iomem *regs)
 }
 
 static struct msm_otg_platform_data msm_otg_pdata = {
-	.rpc_connect	= hsusb_rpc_connect,
-	.pmic_vbus_notif_init         = msm_hsusb_pmic_notif_init,
-	.chg_vbus_draw		 = hsusb_chg_vbus_draw,
-	.chg_connected		 = hsusb_chg_connected,
-	.chg_init		 = hsusb_chg_init,
+	.rpc_connect		= hsusb_rpc_connect,
+	.pmic_vbus_notif_init	= msm_hsusb_pmic_notif_init,
+	.chg_vbus_draw		= hsusb_chg_vbus_draw,
+	.chg_connected		= hsusb_chg_connected,
+	.chg_init		= hsusb_chg_init,
 #ifdef CONFIG_USB_EHCI_MSM
-	.vbus_power = msm_hsusb_vbus_power,
+	.vbus_power		= msm_hsusb_vbus_power,
 #endif
 	.ldo_init		= msm_hsusb_ldo_init,
 	.pclk_required_during_lpm = 1,
@@ -2430,8 +2430,8 @@ static struct mmc_platform_data msm7x2x_sdc2_data = {
 #endif
 
 static struct mmc_platform_data msm7x2x_wifi_data = {
-	.ocr_mask				=	MMC_VDD_28_29,
-	.register_status_notify =	wifi_status_notify,
+	.ocr_mask			=	MMC_VDD_28_29,
+	.register_status_notify 	=	wifi_status_notify,
 	.msmsdcc_fmin			=	144000,
 	.msmsdcc_fmid			=	24576000,
 	.msmsdcc_fmax			=	24576000,
@@ -2585,12 +2585,12 @@ msm_i2c_gpio_config(int iface, int config_type)
 }
 
 static struct msm_i2c_platform_data msm_i2c_pdata = {
-	.clk_freq = 300000,
-	.rmutex  = 0,
-	.pri_clk = 60,
-	.pri_dat = 61,
-	.aux_clk = 95,
-	.aux_dat = 96,
+	.clk_freq 	= 300000,
+	.rmutex  	= 0,
+	.pri_clk 	= 60,
+	.pri_dat 	= 61,
+	.aux_clk 	= 95,
+	.aux_dat 	= 96,
 	.msm_i2c_config_gpio = msm_i2c_gpio_config,
 };
 
@@ -2628,7 +2628,7 @@ static uint32_t camera_i2c_gpio_table[] = {
 
 static struct i2c_gpio_platform_data camera_i2c_gpio_data = {
 	.sda_pin		= 107,
-	.scl_pin		=93,
+	.scl_pin		= 93,
 	.sda_is_open_drain	= 0,
 	.scl_is_open_drain	= 0,
 	.udelay			= 2,

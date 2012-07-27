@@ -1210,7 +1210,6 @@ dhd_arp_offload_enable(dhd_pub_t * dhd, int arp_enable)
 		DHD_TRACE(("%s: successfully enabed ARP offload to %d\n",
 		__FUNCTION__, arp_enable));
 }
-#endif
 
 
 void dhd_arp_cleanup(dhd_pub_t *dhd)

@@ -208,78 +208,78 @@ static long msm_jrd_batt_ioctl(struct file *file,
                           unsigned int cmd, unsigned long arg);
 
 static const struct file_operations msm_jrd_batt_fops = {
-        .owner = THIS_MODULE,
-        .unlocked_ioctl = msm_jrd_batt_ioctl,
-        .open = msm_jrd_batt_open,
-        .release = msm_jrd_batt_release,
+	.owner = THIS_MODULE,
+	.unlocked_ioctl = msm_jrd_batt_ioctl,
+	.open = msm_jrd_batt_open,
+	.release = msm_jrd_batt_release,
 };
 
 static struct miscdevice msm_jrd_batt_dev = {
-        .minor = MISC_DYNAMIC_MINOR,
-        .name = "msmbatt",
-        .fops = &msm_jrd_batt_fops,
+	.minor = MISC_DYNAMIC_MINOR,
+	.name = "msmbatt",
+	.fops = &msm_jrd_batt_fops,
 };
 
 static int msm_jrd_batt_open(struct inode *inode, struct file *file)
 {
         //struct private *priv;
 
-        file->private_data = NULL;
+	file->private_data = NULL;
         //file->f_mode = 777;
 
-        return 0;
+	return 0;
 }
 
 static int msm_jrd_batt_release(struct inode *inode, struct file *file)
 {
         //struct private *priv;
 
-        file->private_data = NULL;
+	file->private_data = NULL;
 
-        return 0;
+	return 0;
 }
 
 static long msm_jrd_batt_ioctl(struct file *file,
                           unsigned int cmd, unsigned long arg)
 {
-        long rc = 0;
-        unsigned charge_satus = 0;
-        uint32_t agc;
+	long rc = 0;
+	unsigned charge_satus = 0;
+	uint32_t agc;
 
-       mutex_lock(&batt_lock);
+	mutex_lock(&batt_lock);
 
-        /* Verify user arguments. */
-        //if (_IOC_TYPE(cmd) != MSM_JRD_BATT_IOC_MAGIC)
-        //      return -ENOTTY;
+	/* Verify user arguments. */
+	//if (_IOC_TYPE(cmd) != MSM_JRD_BATT_IOC_MAGIC)
+	//      return -ENOTTY;
 
-        switch (cmd) {
+	switch (cmd) {
 
-        case MSM_JRD_BATT_CHARG_STAUT:
-                if (get_user(agc, (uint32_t __user *) arg)) {
-                        printk(KERN_INFO "msmbatt ioctl error! \n");
-                        rc = -EFAULT;
-                        break;
-                } else if ((agc != 1) && (agc != 2)) {
-                        rc = -EINVAL;
-                        break;
-                }
-                charge_satus = agc;//cpu_to_be32(agc);
-                if (charge_satus == 1)
-                {
-                      msm_jrd_poweron_process = 1;
+	case MSM_JRD_BATT_CHARG_STAUT:
+		if (get_user(agc, (uint32_t __user *) arg)) {
+			printk(KERN_INFO "msmbatt ioctl error! \n");
+			rc = -EFAULT;
+			break;
+		} else if ((agc != 1) && (agc != 2)) {
+			rc = -EINVAL;
+			break;
+		}
+		charge_satus = agc;//cpu_to_be32(agc);
+		if (charge_satus == 1)
+		{
+			msm_jrd_poweron_process = 1;
 
-                      printk(KERN_INFO "msmatt ioctl\n");
-                }
+			printk(KERN_INFO "msmatt ioctl\n");
+		}
 
-                break;
+		break;
 
-        default:
-                printk(KERN_INFO "default return\n");
-                return -ENOTTY;
-        }
-        mutex_unlock(&batt_lock);
+	default:
+		printk(KERN_INFO "default return\n");
+		return -ENOTTY;
+	}
+	mutex_unlock(&batt_lock);
 
-        return rc;
+	return rc;
 }
 #endif
 
@@ -295,7 +295,7 @@ struct rpc_reply_batt_chg_v1 {
 	u32     battery_voltage;
 	u32	battery_temp;
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-       u32 battery_time;//jrd add
+	u32	battery_time;//jrd add
 #endif
 };
 
@@ -317,29 +317,29 @@ static union rpc_reply_batt_chg rep_batt_chg;
 #endif
 
 struct msm_battery_info {
-	u32 voltage_max_design;
-	u32 voltage_min_design;
-	u32 chg_api_version;
-	u32 batt_technology;
-	u32 batt_api_version;
+	u32	voltage_max_design;
+	u32	voltage_min_design;
+	u32	chg_api_version;
+	u32	batt_technology;
+	u32	batt_api_version;
 
-	u32 avail_chg_sources;
-	u32 current_chg_source;
+	u32	avail_chg_sources;
+	u32	current_chg_source;
 
-	u32 batt_status;
-	u32 batt_health;
-	u32 charger_valid;
-	u32 batt_valid;
-	u32 batt_capacity; /* in percentage */
+	u32	batt_status;
+	u32	batt_health;
+	u32	charger_valid;
+	u32	batt_valid;
+	u32	batt_capacity; /* in percentage */
 
-	u32 charger_status;
-	u32 charger_type;
-	u32 battery_status;
-	u32 battery_level;
-	u32 battery_voltage; /* in millie volts */
-	u32 battery_temp;  /* in celsius */
+	u32	charger_status;
+	u32	charger_type;
+	u32	battery_status;
+	u32	battery_level;
+	u32	battery_voltage; /* in millie volts */
+	u32	battery_temp;  /* in celsius */
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-       u32 battery_time;//jrd add
+	u32	battery_time;//jrd add
 #endif
 	u32(*calculate_capacity) (u32 voltage);
 
@@ -399,7 +399,7 @@ static struct msm_battery_info msm_batt_info = {
 	.batt_valid  = 1,
 	.battery_temp = 23,
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        .battery_time = 0,//jrd add
+	.battery_time = 0,//jrd add
 #endif
 	.vbatt_modify_reply_avail = 0,
 };
@@ -464,7 +464,7 @@ static enum power_supply_property msm_batt_power_props[] = {
 	POWER_SUPPLY_PROP_CAPACITY,
 	POWER_SUPPLY_PROP_TEMP,//JRD add for read batt temp
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW,//jrd add
+	POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW,//jrd add
 #endif
 };
 
@@ -497,13 +497,13 @@ static int msm_batt_power_get_property(struct power_supply *psy,
 	case POWER_SUPPLY_PROP_CAPACITY:
 		val->intval = msm_batt_info.batt_capacity;
 		break;
-        case POWER_SUPPLY_PROP_TEMP:
-                val->intval = msm_batt_info.battery_temp;//jrd add for temp
-                break;
+	case POWER_SUPPLY_PROP_TEMP:
+		val->intval = msm_batt_info.battery_temp;//jrd add for temp
+		break;
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        case POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW:
-                val->intval = msm_batt_info.battery_time;//jrd add for temp
-                break;
+	case POWER_SUPPLY_PROP_TIME_TO_EMPTY_NOW:
+		val->intval = msm_batt_info.battery_time;//jrd add for temp
+		break;
 #endif
 	default:
 		return -EINVAL;
@@ -576,7 +576,7 @@ if(rpc_init_flag == 0)
 
 	req_batt_chg.more_data = cpu_to_be32(1);
 
-       printk(KERN_INFO "%s: get usb connect \n\n",
+	printk(KERN_INFO "%s: get usb connect \n\n",
 		       __func__);
 
 	memset(&rep_batt_chg, 0, sizeof(rep_batt_chg));
@@ -599,25 +599,25 @@ if(rpc_init_flag == 0)
 		be32_to_cpu_self(v1p->battery_voltage);
 		be32_to_cpu_self(v1p->battery_temp);
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-                be32_to_cpu_self(v1p->battery_time);//jrd add
+		be32_to_cpu_self(v1p->battery_time);//jrd add
 #endif
 
 		if (v1p->charger_type == CHARGER_TYPE_NONE)
 		{
 
-                   if ( msm_jrd_poweron_process == 0 && v1p->battery_time == 4 && msm_jrd_on_poweroff_process == 0)
-                   {
-                        msm_jrd_on_poweroff_process = 1;
+			if ( msm_jrd_poweron_process == 0 && v1p->battery_time == 4 && msm_jrd_on_poweroff_process == 0)
+			{
+				msm_jrd_on_poweroff_process = 1;
 
-                        printk("BATT: power off == NULL ***====\n\n");
-                        msm_proc_comm(PCOM_POWER_DOWN,0,0);
-                          for(;;)
-                             ;
+				printk("BATT: power off == NULL ***====\n\n");
+				msm_proc_comm(PCOM_POWER_DOWN,0,0);
+					for(;;)
+					   ;
 
-                        return 0;
+				return 0;
 
-                     }
-                     else if (msm_jrd_on_poweroff_process == 1)
+			}
+			else if (msm_jrd_on_poweroff_process == 1)
 			{
 				printk("BATT: on kernel power off process ***====\n\n");
 			}
@@ -671,7 +671,7 @@ static int msm_batt_get_batt_chg_status(void)
 		be32_to_cpu_self(v1p->battery_voltage);
 		be32_to_cpu_self(v1p->battery_temp);
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-                be32_to_cpu_self(v1p->battery_time);//jrd add
+		be32_to_cpu_self(v1p->battery_time);//jrd add
 #endif
 	} else {
 		pr_err("%s: No battery/charger data in RPC reply\n", __func__);
@@ -688,59 +688,59 @@ extern bool jrd_start_pwd_record;
 
 void sleep_time_fs_write(signed long long sleep_time, bool be_erased)
 {
-    u32 up_h, up_m, up_s;
-    signed long long temp_time = 0;
-    mm_segment_t old_fs;
-    loff_t pos;
-    struct file *fp;
-    struct file *fp_str;
-    char buff_time[20] = {0};
-    char buff[50] = {0};
+	u32 up_h, up_m, up_s;
+	signed long long temp_time = 0;
+	mm_segment_t old_fs;
+	loff_t pos;
+	struct file *fp;
+	struct file *fp_str;
+	char buff_time[20] = {0};
+	char buff[50] = {0};
 
-    old_fs = get_fs();
-    set_fs(KERNEL_DS);
+	old_fs = get_fs();
+	set_fs(KERNEL_DS);
 
-    fp = filp_open ("/data/aptime", O_RDWR|O_CREAT , 0666);
-    if (IS_ERR(fp)) {
-        printk("============open file error===================\n");
-return;
-    }
+	fp = filp_open ("/data/aptime", O_RDWR|O_CREAT , 0666);
+	if (IS_ERR(fp)) {
+		printk("============open file error===================\n");
+	return;
+	}
 
-    fp_str = filp_open ("/data/ap_sleep_time.txt", O_RDWR|O_CREAT , 0666);
-    if (IS_ERR(fp_str)) {
-        printk("============open file error===================\n");
-return ;
-    }
+	fp_str = filp_open ("/data/ap_sleep_time.txt", O_RDWR|O_CREAT , 0666);
+	if (IS_ERR(fp_str)) {
+		printk("============open file error===================\n");
+	return;
+	}
 
-    pos =0;
-    vfs_read(fp, buff_time, sizeof(buff_time), &pos);
+	pos = 0;
+	vfs_read(fp, buff_time, sizeof(buff_time), &pos);
 
-    sscanf(buff_time,"%lld",&temp_time);
-    printk("read time is %lld, this time: %lld\n",temp_time,sleep_time);
-    temp_time = (sleep_time + temp_time);
-    printk("total time is %lld\n",temp_time);
+	sscanf(buff_time,"%lld",&temp_time);
+	printk("read time is %lld, this time: %lld\n",temp_time,sleep_time);
+	temp_time = (sleep_time + temp_time);
+	printk("total time is %lld\n",temp_time);
 
-    if (be_erased ==  true)
-    {
-        temp_time = 0;
-    }
+	if (be_erased ==  true)
+	{
+		temp_time = 0;
+	}
 
-    up_h=(u32)temp_time/3600;
-    up_m=((u32)temp_time-(up_h*3600))/60;
-    up_s=(u32)temp_time-(up_h*3600)-(up_m*60);
+	up_h=(u32)temp_time/3600;
+	up_m=((u32)temp_time-(up_h*3600))/60;
+	up_s=(u32)temp_time-(up_h*3600)-(up_m*60);
 
-    sprintf(buff,"Ap sleep time (h:m:s): %d:%02d:%02d \n",up_h,up_m,up_s);
+	sprintf(buff,"Ap sleep time (h:m:s): %d:%02d:%02d \n",up_h,up_m,up_s);
 
-    sprintf(buff_time,"%lld",temp_time);
+	sprintf(buff_time,"%lld",temp_time);
 
-    pos = 0;
-    vfs_write(fp,buff_time, sizeof(buff_time), &pos);
-    pos = 0;
-    vfs_write(fp_str,buff, sizeof(buff), &pos);
+	pos = 0;
+	vfs_write(fp,buff_time, sizeof(buff_time), &pos);
+	pos = 0;
+	vfs_write(fp_str,buff, sizeof(buff), &pos);
 
-    filp_close(fp, NULL);
-    filp_close(fp_str, NULL);
-    set_fs(old_fs);
+	filp_close(fp, NULL);
+	filp_close(fp_str, NULL);
+	set_fs(old_fs);
 }
 #endif
 
@@ -755,7 +755,7 @@ static void msm_batt_update_psy_status(void)
 	u32	battery_temp;
         u32     voltage_dif = 0;
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        u32 battery_time;//jrd add
+	u32	battery_time;//jrd add
 #endif
 	struct	power_supply	*supp;
 
@@ -770,28 +770,28 @@ static void msm_batt_update_psy_status(void)
 	battery_temp = rep_batt_chg.v1.battery_temp;
 
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        battery_time = rep_batt_chg.v1.battery_time;//jrd add for test
+	battery_time = rep_batt_chg.v1.battery_time;//jrd add for test
 
-        msm_batt_info.battery_time = battery_time;
+	msm_batt_info.battery_time = battery_time;
 
-        if (charger_type != msm_batt_info.charger_type && charger_type == CHARGER_TYPE_NONE
-            && msm_jrd_poweron_process == 0 && battery_time == 4 && msm_jrd_on_poweroff_process == 0)
-        {
-            msm_jrd_on_poweroff_process = 1;
+	if (charger_type != msm_batt_info.charger_type && charger_type == CHARGER_TYPE_NONE
+		&& msm_jrd_poweron_process == 0 && battery_time == 4 && msm_jrd_on_poweroff_process == 0)
+	{
+		msm_jrd_on_poweroff_process = 1;
 
-            PR_LIMIT("BATT: power off == NULL @@@@====\n\n");
-            msm_proc_comm(PCOM_POWER_DOWN,0,0);
-            for(;;)
-               ;
+		PR_LIMIT("BATT: power off == NULL @@@@====\n\n");
+		msm_proc_comm(PCOM_POWER_DOWN,0,0);
+		for(;;)
+		   ;
 
-            return;
+		return;
 
-        }
-        else if (msm_jrd_on_poweroff_process == 1)
-        {
-            PR_LIMIT("BATT: on kernel power off process @@@@====\n\n");
-            return;
-        }
+	}
+	else if (msm_jrd_on_poweroff_process == 1)
+	{
+		PR_LIMIT("BATT: on kernel power off process @@@@====\n\n");
+		return;
+	}
 #endif
 
 	/* Make correction for battery status */
@@ -806,11 +806,11 @@ static void msm_batt_update_psy_status(void)
 		 charger_status, charger_type, battery_status,
 		  jrd_total_sleep_time);
 
-        if (jrd_start_pwd_record == true)
-        {
-            sleep_time_fs_write(jrd_total_sleep_time, false);
-            jrd_total_sleep_time = 0;
-        }
+	if (jrd_start_pwd_record == true)
+	{
+		sleep_time_fs_write(jrd_total_sleep_time, false);
+		jrd_total_sleep_time = 0;
+	}
 #endif
 
 	if (charger_status == msm_batt_info.charger_status &&
@@ -867,34 +867,34 @@ static void msm_batt_update_psy_status(void)
 
                //battery_voltage = msm_batt_get_vbatt_voltage();
 
-	       if ((battery_voltage < (msm_batt_info.battery_voltage + voltage_dif)) && (battery_voltage > (msm_batt_info.battery_voltage - voltage_dif)))
-               {
-                    DBG_LIMIT("voltage is not change greatly@@@@\n");
-                    battery_voltage = msm_batt_info.battery_voltage;
+		if ((battery_voltage < (msm_batt_info.battery_voltage + voltage_dif)) && (battery_voltage > (msm_batt_info.battery_voltage - voltage_dif)))
+		{
+			DBG_LIMIT("voltage is not change greatly@@@@\n");
+			battery_voltage = msm_batt_info.battery_voltage;
 
-               }
-               else
-               msm_batt_info.battery_voltage = battery_voltage;
+		}
+		else
+		msm_batt_info.battery_voltage = battery_voltage;
 
-	       msm_batt_info.batt_capacity = msm_batt_info.calculate_capacity(
+		msm_batt_info.batt_capacity = msm_batt_info.calculate_capacity(
 					msm_batt_info.battery_voltage);
 
-	       msm_batt_info.batt_status = POWER_SUPPLY_STATUS_DISCHARGING;
-	       msm_batt_info.batt_health = POWER_SUPPLY_HEALTH_GOOD;
-	       msm_batt_info.batt_valid  = battery_status ;
-	       msm_batt_info.battery_temp = battery_temp;
+		msm_batt_info.batt_status = POWER_SUPPLY_STATUS_DISCHARGING;
+		msm_batt_info.batt_health = POWER_SUPPLY_HEALTH_GOOD;
+		msm_batt_info.batt_valid  = battery_status ;
+		msm_batt_info.battery_temp = battery_temp;
 
-	       //printk(KERN_INFO "%s() : No charger. Batt Volt = %u.\n",
-	       //		 __func__, msm_batt_info.battery_voltage);
+		//printk(KERN_INFO "%s() : No charger. Batt Volt = %u.\n",
+		//		 __func__, msm_batt_info.battery_voltage);
 
-	       power_supply_changed(&msm_psy_batt);
+		power_supply_changed(&msm_psy_batt);
 
-               msm_batt_info.charger_status 	= charger_status;
-               msm_batt_info.charger_type 	= charger_type;
-               msm_batt_info.battery_status 	= battery_status;
-               msm_batt_info.battery_level 	= battery_level;
-               msm_batt_info.battery_voltage  	= battery_voltage;
-               msm_batt_info.battery_temp 	= battery_temp;
+		msm_batt_info.charger_status 	= charger_status;
+		msm_batt_info.charger_type 	= charger_type;
+		msm_batt_info.battery_status 	= battery_status;
+		msm_batt_info.battery_level 	= battery_level;
+		msm_batt_info.battery_voltage  	= battery_voltage;
+		msm_batt_info.battery_temp 	= battery_temp;
 
 		return;
 	}
@@ -964,13 +964,13 @@ static void msm_batt_update_psy_status(void)
 			else
 				supp = &msm_psy_usb;
 		}/*jrd add for not charging status*/
-                else if (charger_type == CHARGER_TYPE_INVALID)
-                {
-                  //printk(KERN_INFO "======BATT: NOT charging\n");
-                  msm_batt_info.batt_status =
+		else if (charger_type == CHARGER_TYPE_INVALID)
+		{
+			//printk(KERN_INFO "======BATT: NOT charging\n");
+			msm_batt_info.batt_status =
 				POWER_SUPPLY_STATUS_NOT_CHARGING;
 			supp = &msm_psy_batt;
-                 }
+		}
 	}
 #if 0
 	/* Correct battery voltage and status */
@@ -1044,27 +1044,27 @@ static void msm_batt_update_psy_status(void)
 	msm_batt_info.battery_level 	= battery_level;
 	msm_batt_info.battery_temp 	= battery_temp;
 #endif
-        if ((charger_status == CHARGER_STATUS_GOOD
-	    || charger_status == CHARGER_STATUS_WEAK)
-             && (battery_status == BATTERY_STATUS_GOOD)) {
+	if ((charger_status == CHARGER_STATUS_GOOD
+		|| charger_status == CHARGER_STATUS_WEAK)
+		&& (battery_status == BATTERY_STATUS_GOOD)) {
 
-                    if (battery_level == BATTERY_LEVEL_FULL)
-                		msm_batt_info.batt_status =
-                			POWER_SUPPLY_STATUS_FULL;
-                	else
-                		msm_batt_info.batt_status =
-                			POWER_SUPPLY_STATUS_CHARGING;
-        }
+			if (battery_level == BATTERY_LEVEL_FULL)
+				msm_batt_info.batt_status =
+					POWER_SUPPLY_STATUS_FULL;
+			else
+				msm_batt_info.batt_status =
+					POWER_SUPPLY_STATUS_CHARGING;
+	}
 
-        if ((battery_voltage < (msm_batt_info.battery_voltage + voltage_dif)) && (battery_voltage > (msm_batt_info.battery_voltage - voltage_dif)))
-        {
-                    DBG_LIMIT("voltage is not change greatly@@@@\n");
-                    battery_voltage = msm_batt_info.battery_voltage;
-                    msm_batt_info.batt_capacity = msm_batt_info.calculate_capacity(
+	if ((battery_voltage < (msm_batt_info.battery_voltage + voltage_dif)) && (battery_voltage > (msm_batt_info.battery_voltage - voltage_dif)))
+	{
+		DBG_LIMIT("voltage is not change greatly@@@@\n");
+			battery_voltage = msm_batt_info.battery_voltage;
+			msm_batt_info.batt_capacity = msm_batt_info.calculate_capacity(
 					msm_batt_info.battery_voltage);
-        }
-        else
-        {
+	}
+	else
+	{
 	if (msm_batt_info.battery_voltage != battery_voltage) {
 		msm_batt_info.battery_voltage  	= battery_voltage;
 		msm_batt_info.batt_capacity =
@@ -1197,7 +1197,7 @@ void msm_batt_early_suspend(struct early_suspend *h)
 	int rc;
 
 	pr_debug("%s: enter\n", __func__);
-   	del_timer(&jrd_poll_voltage_timer);
+	del_timer(&jrd_poll_voltage_timer);
 	jrd_start_poll_voltage_timer = 0;
 
 	if (msm_batt_info.batt_handle != INVALID_BATT_HANDLE) {
@@ -1228,7 +1228,7 @@ void msm_batt_late_resume(struct early_suspend *h)
 	if (msm_batt_info.batt_handle != INVALID_BATT_HANDLE) {
 		rc = msm_batt_modify_client(msm_batt_info.batt_handle,
 				BATTERY_LOW, BATTERY_ALL_ACTIVITY,
-			       BATTERY_CB_ID_ALL_ACTIV, BATTERY_ALL_ACTIVITY);
+				BATTERY_CB_ID_ALL_ACTIV, BATTERY_ALL_ACTIVITY);
 		if (rc < 0) {
 			pr_err("%s: msm_batt_modify_client FAIL rc=%d\n",
 			       __func__, rc);
@@ -1238,24 +1238,24 @@ void msm_batt_late_resume(struct early_suspend *h)
 		pr_err("%s: ERROR. invalid batt_handle\n", __func__);
 		return;
 	}
-        //jrd add for update battery status
-        msm_batt_update_psy_status();
+	//jrd add for update battery status
+	msm_batt_update_psy_status();
 
-        spin_lock_irqsave(&jrd_voltage_lock, irq_flags);
+	spin_lock_irqsave(&jrd_voltage_lock, irq_flags);
 
-        if (jrd_start_poll_voltage_timer == 0)
-        {
-            //printk(KERN_INFO "======start voltage timer \n");
-            jrd_start_poll_voltage_timer = 1;
-            mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
-        }
-        else
-        {
-            del_timer(&jrd_poll_voltage_timer);
-            mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
-        }
+	if (jrd_start_poll_voltage_timer == 0)
+	{
+		//printk(KERN_INFO "======start voltage timer \n");
+		jrd_start_poll_voltage_timer = 1;
+		mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
+	}
+	else
+	{
+		del_timer(&jrd_poll_voltage_timer);
+		mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
+	}
 
-    	spin_unlock_irqrestore(&jrd_voltage_lock, irq_flags);
+	spin_unlock_irqrestore(&jrd_voltage_lock, irq_flags);
 	pr_debug("%s: exit\n", __func__);
 }
 #endif
@@ -1271,8 +1271,7 @@ struct msm_batt_vbatt_filter_rep {
 };
 
 static int msm_batt_filter_arg_func(struct msm_rpc_client *batt_client,
-
-		void *buf, void *data)
+					void *buf, void *data)
 {
 	struct msm_batt_vbatt_filter_req *vbatt_filter_req =
 		(struct msm_batt_vbatt_filter_req *)data;
@@ -1293,7 +1292,7 @@ static int msm_batt_filter_arg_func(struct msm_rpc_client *batt_client,
 }
 
 static int msm_batt_filter_ret_func(struct msm_rpc_client *batt_client,
-				       void *buf, void *data)
+					void *buf, void *data)
 {
 
 	struct msm_batt_vbatt_filter_rep *data_ptr, *buf_ptr;
@@ -1636,28 +1635,28 @@ static int msm_batt_cleanup(void)
 
 static u32 msm_batt_capacity(u32 current_voltage)
 {
-    u16 level_index = 0;
-    u32 low_voltage = 0;
-    u32 high_voltage = 0;
-    msm_batt_info.voltage_min_design = 3000;
-    msm_batt_info.voltage_max_design = 4200;
-    low_voltage = msm_batt_info.voltage_min_design;
-    high_voltage = msm_batt_info.voltage_max_design;
+	u16 level_index = 0;
+	u32 low_voltage = 0;
+	u32 high_voltage = 0;
+	msm_batt_info.voltage_min_design = 3000;
+	msm_batt_info.voltage_max_design = 4200;
+	low_voltage = msm_batt_info.voltage_min_design;
+	high_voltage = msm_batt_info.voltage_max_design;
 
-    if (current_voltage > high_voltage)
-    {
-        level_index = 0;
-    }
-    else if (current_voltage < low_voltage)
-    {
-        level_index = 120;
-    }
-    else
-    {
-        level_index = (high_voltage - current_voltage)/10;
-    }
+	if (current_voltage > high_voltage)
+	{
+		level_index = 0;
+	}
+	else if (current_voltage < low_voltage)
+	{
+		level_index = 120;
+	}
+	else
+	{
+		level_index = (high_voltage - current_voltage)/10;
+	}
 
-    return jrd_batt_level[level_index];
+	return jrd_batt_level[level_index];
 
 }
 
@@ -1806,24 +1805,24 @@ static int msm_batt_cb_func(struct msm_rpc_client *client,
 		pr_err("%s: FAIL: sending reply. rc=%d\n", __func__, rc);
 
 	if (accept_status == RPC_ACCEPTSTAT_SUCCESS)
-        {
-              if (jrd_start_poll_voltage_timer == 1)
-              {
-	            spin_lock_irqsave(&jrd_voltage_lock, irq_flags);
+	{
+		if (jrd_start_poll_voltage_timer == 1)
+		{
+			spin_lock_irqsave(&jrd_voltage_lock, irq_flags);
 
-                    jrd_start_poll_voltage_timer = 0;
-                    del_timer(&jrd_poll_voltage_timer);
+			jrd_start_poll_voltage_timer = 0;
+			del_timer(&jrd_poll_voltage_timer);
 
-                    spin_unlock_irqrestore(&jrd_voltage_lock, irq_flags);
-              }
+			spin_unlock_irqrestore(&jrd_voltage_lock, irq_flags);
+		}
 
-	      msm_batt_update_psy_status();
+		msm_batt_update_psy_status();
 
-              spin_lock_irqsave(&jrd_voltage_lock, irq_flags);
-              jrd_start_poll_voltage_timer = 1;
-              mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
-              spin_unlock_irqrestore(&jrd_voltage_lock, irq_flags);
-         }
+		spin_lock_irqsave(&jrd_voltage_lock, irq_flags);
+		jrd_start_poll_voltage_timer = 1;
+		mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
+		spin_unlock_irqrestore(&jrd_voltage_lock, irq_flags);
+	}
 
 	return rc;
 }
@@ -1835,7 +1834,7 @@ static int __devinit msm_batt_probe(struct platform_device *pdev)
 	struct msm_psy_batt_pdata *pdata = pdev->dev.platform_data;
 
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-       msm_jrd_poweron_process = 0;
+	msm_jrd_poweron_process = 0;
 #endif
 
 	if (pdev->id != -1) {
@@ -1941,17 +1940,17 @@ static int __devinit msm_batt_probe(struct platform_device *pdev)
 #endif
 	msm_batt_update_psy_status();
 
-       if (jrd_start_poll_voltage_timer == 0)
-       {
-            jrd_start_poll_voltage_timer = 1;
-            //jrd_usb_wake_lock_fun();
-            mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
-        }
-        else
-        {
-            del_timer(&jrd_poll_voltage_timer);
-            mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
-        }
+	if (jrd_start_poll_voltage_timer == 0)
+	{
+		jrd_start_poll_voltage_timer = 1;
+		//jrd_usb_wake_lock_fun();
+		mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
+	}
+	else
+	{
+		del_timer(&jrd_poll_voltage_timer);
+		mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
+	}
 #else
 	power_supply_changed(&msm_psy_ac);
 #endif  /* CONFIG_BATTERY_MSM_FAKE */
@@ -1989,12 +1988,12 @@ DECLARE_DELAYED_WORK(jrd_poll_voltage_workqueue, jrd_poll_voltage_work);
 
 static void jrd_poll_voltage_work(struct work_struct *work)
 {
-    //printk(KERN_INFO "=====update voltage=== \n");
-    msm_batt_update_psy_status();
+	//printk(KERN_INFO "=====update voltage=== \n");
+	msm_batt_update_psy_status();
 
-    //printk(KERN_INFO "======re-start voltage timer after update \n");
-    jrd_start_poll_voltage_timer = 1;
-    mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
+	//printk(KERN_INFO "======re-start voltage timer after update \n");
+	jrd_start_poll_voltage_timer = 1;
+	mod_timer(&jrd_poll_voltage_timer, jiffies + (HZ * 30));
 }
 
 static void jrd_poll_voltage_timer_expire(unsigned long data)
@@ -2136,13 +2135,13 @@ static int __init msm_batt_init(void)
 		__func__, msm_batt_info.chg_api_version,
 		msm_batt_info.batt_api_version);
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        rc = misc_register(&msm_jrd_batt_dev);
-        if (rc < 0)
-        {
-              printk(KERN_INFO "%s() : register msm dev failed!! ;\n",
-                                                __func__);
-                return rc;
-        }
+	rc = misc_register(&msm_jrd_batt_dev);
+	if (rc < 0)
+	{
+		printk(KERN_INFO "%s() : register msm dev failed!! ;\n",
+			__func__);
+		return rc;
+	}
 #endif
 	return 0;
 }
@@ -2152,7 +2151,7 @@ static void __exit msm_batt_exit(void)
     	del_timer(&jrd_poll_voltage_timer);
 	platform_driver_unregister(&msm_batt_driver);
 #ifdef FEATURE_POWER_OFF_CHARGER_JRD
-        misc_deregister(&msm_jrd_batt_dev);
+	misc_deregister(&msm_jrd_batt_dev);
 #endif
 }
 
