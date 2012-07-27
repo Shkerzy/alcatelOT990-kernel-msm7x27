@@ -1430,7 +1430,7 @@ dhd_watchdog_thread(void *data)
 	while (1) {
 		if (down_interruptible (&dhd->watchdog_sem) == 0) {
 			dhd_os_sdlock(&dhd->pub);
-			if (dhd->pub.dongle_reset == FALSE) {
+			if (dhd->pub.dongle_reset == FALSE && dhd_early_suspend_state() == FALSE) {
 				DHD_TIMER(("%s:\n", __FUNCTION__));
 				WAKE_LOCK(&dhd->pub, WAKE_LOCK_WATCHDOG);
 				/* Call the bus module watchdog */
