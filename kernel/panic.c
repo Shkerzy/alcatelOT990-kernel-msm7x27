@@ -26,7 +26,12 @@
 //{Blue screen on panic, xuxian 20110217
 #include <mach/msm_fb.h>
 //}
+
+#ifdef CONFIG_KERNELIZER
+int panic_on_oops = 1;
+#else
 int panic_on_oops;
+#endif
 static unsigned long tainted_mask;
 static int pause_on_oops;
 static int pause_on_oops_flag;
