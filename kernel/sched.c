@@ -713,6 +713,7 @@ const_debug unsigned int sysctl_sched_features =
 const_debug unsigned int sysctl_sched_features =
 #include "sched_features.h"
 	0;
+#endif
 
 #undef SCHED_FEAT
 

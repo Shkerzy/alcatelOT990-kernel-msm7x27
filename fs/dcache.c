@@ -38,7 +38,7 @@
 #ifdef CONFIG_KERNELIZER
 int sysctl_vfs_cache_pressure __read_mostly = 20;
 #else
-int sysctl_vfs_cache_pressure __read_mostly = 50;
+int sysctl_vfs_cache_pressure __read_mostly = 100;
 #endif
 EXPORT_SYMBOL_GPL(sysctl_vfs_cache_pressure);
 

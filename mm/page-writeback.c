@@ -84,7 +84,7 @@ int vm_highmem_is_dirtyable;
 #ifdef CONFIG_KERNELIZER
 int vm_dirty_ratio = 95;
 #else
-int vm_dirty_ratio = 10;
+int vm_dirty_ratio = 20;
 #endif
 
 /*

@@ -63,8 +63,8 @@ enum sched_tunable_scaling sysctl_sched_tunable_scaling
 unsigned int sysctl_sched_min_granularity = 1500000ULL;
 unsigned int normalized_sysctl_sched_min_granularity = 1500000ULL;
 #else
-unsigned int sysctl_sched_min_granularity = 750000ULL;
-unsigned int normalized_sysctl_sched_min_granularity = 750000ULL;
+unsigned int sysctl_sched_min_granularity = 2000000ULL;
+unsigned int normalized_sysctl_sched_min_granularity = 2000000ULL;
 #endif
 
 /*
@@ -106,8 +106,8 @@ unsigned int __read_mostly sysctl_sched_compat_yield;
 unsigned int sysctl_sched_wakeup_granularity = 3000000UL;
 unsigned int normalized_sysctl_sched_wakeup_granularity = 3000000UL;
 #else
-unsigned int sysctl_sched_wakeup_granularity = 25000UL;
-unsigned int normalized_sysctl_sched_wakeup_granularity = 25000UL;
+unsigned int sysctl_sched_wakeup_granularity = 1000000UL;
+unsigned int normalized_sysctl_sched_wakeup_granularity = 1000000UL;
 #endif
 
 const_debug unsigned int sysctl_sched_migration_cost = 500000UL;

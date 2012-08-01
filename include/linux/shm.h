@@ -15,7 +15,7 @@
  */
 
 #ifdef CONFIG_KERNELIZER
-#define SHMMAX 0x268435456		 /* max shared seg size (bytes) */
+#define SHMMAX 0x26843545		 /* max shared seg size (bytes) */
 #else
 #define SHMMAX 0x2000000		 /* max shared seg size (bytes) */
 #endif
