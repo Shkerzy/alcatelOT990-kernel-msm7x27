@@ -379,9 +379,10 @@ static void bfq_add_rq_rb(struct request *rq)
 
 		if (! bfqd->low_latency)
 			goto add_bfqq_busy;
+
 		/*
 		 * If the queue is not being boosted and has been idle
-		 * for enough time, start a boosting period
+		 * for enough time, start a weight-raising period
 		 */
 		if(old_raising_coeff == 1 &&
  		    bfqq->last_rais_start_finish +
